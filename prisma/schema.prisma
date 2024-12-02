@@ -21,7 +21,7 @@ model User {
 
   bankAccounts          BankAcount[]
   transactionCategories TransactionCategory[]
-  Transaction           Transaction[]
+  transaction           Transaction[]
 
   @@map("users")
 }
