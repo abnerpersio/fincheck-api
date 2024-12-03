@@ -20,7 +20,7 @@ export class UserPrismaRepository {
     });
   }
 
-  async fidById(id: string) {
+  async findById(id: string) {
     return this.prisma.user.findUnique({
       where: {
         id,

@@ -6,6 +6,6 @@ export class UsersService {
   constructor(private readonly repo: UserPrismaRepository) {}
 
   getUserById(userId: string) {
-    return this.repo.fidById(userId);
+    return this.repo.findById(userId);
   }
 }

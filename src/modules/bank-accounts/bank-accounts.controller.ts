@@ -1,7 +1,8 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
 import { ActiveUserId } from '~shared/decorators/active-user-id';
 import { BankAccountsService } from './bank-accounts.service';
 import { CreateBankAccountDto } from './dto/create-bank-account.dto';
+import { UpdateBankAccountDto } from './dto/update-bank-account.dto';
 
 @Controller('bank-accounts')
 export class BankAccountsController {
@@ -16,4 +17,16 @@ export class BankAccountsController {
   findAll(@ActiveUserId() userId: string) {
     return this.bankAccountsService.findAllByUserId(userId);
   }
+
+  @Put(':id')
+  update(
+    @ActiveUserId() userId: string,
+    @Param('id') bankAccountId: string,
+    @Body() data: UpdateBankAccountDto,
+  ) {
+    return this.bankAccountsService.update(userId, bankAccountId, data);
+  }
+
+  @Delete(':id')
+  delete() {}
 }
