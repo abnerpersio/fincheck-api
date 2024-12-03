@@ -3,6 +3,7 @@ import { TransactionPrismaRepository } from '~database/repositories/transaction.
 import { ValidateBankAccountOwnershipService } from '../../bank-accounts/services/validate-bank-account-ownership.service';
 import { ValidateTransactionCategoryOwnershipService } from '../../transaction-categories/services/validate-transaction-category-ownership.service';
 import { CreateTransactionDto } from '../dto/create-transaction.dto';
+import { ListTransactionsFiltersDto } from '../dto/list-transaction-filters.dto';
 import { UpdateTransactionDto } from '../dto/update-transaction.dto';
 import { ValidateTransactionOwnershipService } from './validate-transaction-ownership.service';
 
@@ -22,8 +23,21 @@ export class TransactionsService {
     private readonly validateTransactionOwnershipService: ValidateTransactionOwnershipService,
   ) {}
 
-  findAllByUserId(userId: string) {
-    return this.repo.findAll({ userId });
+  findAllByUserId(userId: string, filters?: ListTransactionsFiltersDto) {
+    const { month, year, bankAccountId, type } = filters;
+
+    const currentMonth = new Date(Date.UTC(year, month));
+    const nextMonth = new Date(Date.UTC(year, month + 1));
+
+    return this.repo.findAll({
+      userId,
+      bankAccountId,
+      type,
+      date: {
+        gte: currentMonth,
+        lt: nextMonth,
+      },
+    });
   }
 
   async create(userId: string, data: CreateTransactionDto) {

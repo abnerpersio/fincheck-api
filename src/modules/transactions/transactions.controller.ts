@@ -5,13 +5,14 @@ import {
   Get,
   HttpCode,
   HttpStatus,
-  Param,
   Post,
   Put,
+  Query,
 } from '@nestjs/common';
 import { ActiveUserId } from '~shared/decorators/active-user-id';
 import { UUIDParam } from '~shared/decorators/uuid-param';
 import { CreateTransactionDto } from './dto/create-transaction.dto';
+import { ListTransactionsFiltersDto } from './dto/list-transaction-filters.dto';
 import { UpdateTransactionDto } from './dto/update-transaction.dto';
 import { TransactionsService } from './services/transactions.service';
 
@@ -20,8 +21,8 @@ export class TransactionsController {
   constructor(private readonly transactionsService: TransactionsService) {}
 
   @Get()
-  findAll(@ActiveUserId() userId: string) {
-    return this.transactionsService.findAllByUserId(userId);
+  findAll(@ActiveUserId() userId: string, @Query() filters: ListTransactionsFiltersDto) {
+    return this.transactionsService.findAllByUserId(userId, filters);
   }
 
   @Post()
