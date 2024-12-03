@@ -7,6 +7,7 @@ import { AuthModule } from './modules/auth/auth.module';
 import { TransactionCategoriesModule } from './modules/transaction-categories/transaction-categories.module';
 import { UsersModule } from './modules/users/users.module';
 import { BankAccountsModule } from './modules/bank-accounts/bank-accounts.module';
+import { TransactionsModule } from './modules/transactions/transactions.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { BankAccountsModule } from './modules/bank-accounts/bank-accounts.module
     AuthModule,
     TransactionCategoriesModule,
     BankAccountsModule,
+    TransactionsModule,
   ],
   controllers: [],
   providers: [
