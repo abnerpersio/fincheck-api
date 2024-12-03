@@ -1,12 +1,31 @@
-const environmentVariables = {
-  PASSWORD_SALT: '',
-  PORT: process.env.PORT ? parseInt(process.env.PORT) : 8000,
-};
+import { plainToInstance } from 'class-transformer';
+import { IsNotEmpty, IsString, validateSync } from 'class-validator';
 
-type Variables = typeof environmentVariables;
+class EnvDTO {
+  port: number;
 
-export class Env {
-  static get<K extends keyof Variables>(key: K): Variables[K] {
-    return environmentVariables[key];
-  }
+  passwordSaltLength: string;
+
+  @IsString()
+  @IsNotEmpty()
+  jwtSecret: string;
+  jwtExpiresIn: string;
+}
+
+export const env: EnvDTO = plainToInstance(EnvDTO, {
+  port: process.env.PORT ? parseInt(process.env.PORT) : 8000,
+
+  passwordSaltLength: process.env.PASSWORD_SALT_LENGTH
+    ? parseInt(process.env.PASSWORD_SALT_LENGTH)
+    : 10,
+
+  jwtExpiresIn: process.env.JWT_EXPIRES_IN,
+  jwtSecret: process.env.JWT_SECRET,
+});
+
+const errors = validateSync(env);
+
+if (errors.length) {
+  const message = JSON.stringify(errors, null, 2);
+  throw new Error(message);
 }
