@@ -1,8 +1,19 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Param,
+  Post,
+  Put,
+} from '@nestjs/common';
 import { ActiveUserId } from '~shared/decorators/active-user-id';
+import { UUIDParam } from '~shared/decorators/uuid-param';
 import { CreateTransactionDto } from './dto/create-transaction.dto';
 import { UpdateTransactionDto } from './dto/update-transaction.dto';
-import { TransactionsService } from './transactions.service';
+import { TransactionsService } from './services/transactions.service';
 
 @Controller('transactions')
 export class TransactionsController {
@@ -14,17 +25,22 @@ export class TransactionsController {
   }
 
   @Post()
-  create(@ActiveUserId() userId: string, @Body() createTransactionDto: CreateTransactionDto) {
-    return this.transactionsService.create(userId, createTransactionDto);
+  create(@ActiveUserId() userId: string, @Body() data: CreateTransactionDto) {
+    return this.transactionsService.create(userId, data);
   }
 
   @Put(':id')
-  update(@Param('id') id: string, @Body() updateTransactionDto: UpdateTransactionDto) {
-    return this.transactionsService.update(+id, updateTransactionDto);
+  update(
+    @ActiveUserId() userId: string,
+    @UUIDParam('id') transactionId: string,
+    @Body() data: UpdateTransactionDto,
+  ) {
+    return this.transactionsService.update(userId, transactionId, data);
   }
 
   @Delete(':id')
-  delete(@Param('id') id: string) {
-    return this.transactionsService.delete(+id);
+  @HttpCode(HttpStatus.NO_CONTENT)
+  delete(@ActiveUserId() userId: string, @UUIDParam('id') transactionId: string) {
+    return this.transactionsService.delete(userId, transactionId);
   }
 }
