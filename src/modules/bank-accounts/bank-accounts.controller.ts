@@ -1,5 +1,6 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Post, Put } from '@nestjs/common';
 import { ActiveUserId } from '~shared/decorators/active-user-id';
+import { UUIDParam } from '~shared/decorators/uuid-param';
 import { BankAccountsService } from './bank-accounts.service';
 import { CreateBankAccountDto } from './dto/create-bank-account.dto';
 import { UpdateBankAccountDto } from './dto/update-bank-account.dto';
@@ -21,7 +22,7 @@ export class BankAccountsController {
   @Put(':id')
   update(
     @ActiveUserId() userId: string,
-    @Param('id') bankAccountId: string,
+    @UUIDParam('id') bankAccountId: string,
     @Body() data: UpdateBankAccountDto,
   ) {
     return this.bankAccountsService.update(userId, bankAccountId, data);
