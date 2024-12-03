@@ -1,12 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { TransactionCategory } from '@prisma/client';
 import { PrismaService } from '../prisma.service';
 
 @Injectable()
 export class TransactionCategoryPrismaRepository {
   constructor(private readonly prisma: PrismaService) {}
 
-  async findAll(userId: string): Promise<TransactionCategory[]> {
+  async findAll(userId: string) {
     return this.prisma.transactionCategory.findMany({
       where: {
         userId,
@@ -14,7 +13,7 @@ export class TransactionCategoryPrismaRepository {
     });
   }
 
-  async findById(userId: string, id: string): Promise<TransactionCategory | null> {
+  async findById(userId: string, id: string) {
     return this.prisma.transactionCategory.findFirst({
       where: {
         id,

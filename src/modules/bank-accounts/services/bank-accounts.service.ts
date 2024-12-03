@@ -1,4 +1,5 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
+import { TransactionType } from '~/modules/transactions/entities/transaction';
 import { BankAccountPrismaRepository } from '~database/repositories/bank-account.prisma.repository';
 import { CreateBankAccountDTO } from '../dto/create-bank-account.dto';
 import { UpdateBankAccountDTO } from '../dto/update-bank-account.dto';
@@ -11,11 +12,39 @@ export class BankAccountsService {
     private readonly validateBankAccountOwnershipService: ValidateBankAccountOwnershipService,
   ) {}
 
-  findAllByUserId(userId: string) {
-    return this.repo.findAll({ userId });
+  async findAllByUserId(userId: string) {
+    const bankAccounts = await this.repo.findAll(
+      { userId },
+      {
+        include: {
+          transactions: {
+            select: {
+              type: true,
+              value: true,
+            },
+          },
+        },
+      },
+    );
+
+    return bankAccounts.map(({ transactions, ...bankAccount }) => {
+      const totalTransactions = transactions.reduce((acc, transaction) => {
+        const value = transaction.value || 0;
+        return acc + (transaction.type === TransactionType.INCOME ? value : -value);
+      }, 0);
+
+      return {
+        id: bankAccount.id,
+        name: bankAccount.name,
+        color: bankAccount.color,
+        type: bankAccount.type,
+        initialBalance: bankAccount.initialBalance,
+        currentBalance: bankAccount.initialBalance + totalTransactions,
+      };
+    });
   }
 
-  create(userId: string, data: CreateBankAccountDTO) {
+  async create(userId: string, data: CreateBankAccountDTO) {
     const { name, color, type, initialBalance } = data;
 
     return this.repo.create({

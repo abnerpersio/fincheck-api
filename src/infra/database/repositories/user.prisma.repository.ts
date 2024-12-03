@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { type Prisma, TransactionType, User } from '@prisma/client';
+import { type Prisma, TransactionType } from '@prisma/client';
 import { PrismaService } from '../prisma.service';
 
 type CreateUserData = Prisma.UserCreateArgs['data'];
@@ -14,7 +14,7 @@ type CreateCategoryData = {
 export class UserPrismaRepository {
   constructor(private readonly prisma: PrismaService) {}
 
-  async findByEmail(email: string): Promise<User | null> {
+  async findByEmail(email: string) {
     return this.prisma.user.findUnique({
       where: { email },
     });
@@ -32,13 +32,13 @@ export class UserPrismaRepository {
     });
   }
 
-  async create(data: CreateUserData): Promise<User> {
+  async create(data: CreateUserData) {
     return this.prisma.user.create({
       data: data,
     });
   }
 
-  async createCategories(userId: string, categories: CreateCategoryData[]): Promise<void> {
+  async createCategories(userId: string, categories: CreateCategoryData[]) {
     await this.prisma.user.update({
       where: {
         id: userId,

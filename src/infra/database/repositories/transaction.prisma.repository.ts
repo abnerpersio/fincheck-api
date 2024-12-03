@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { type Prisma, Transaction } from '@prisma/client';
+import { type Prisma } from '@prisma/client';
 import { PrismaService } from '../prisma.service';
 
 type CreateTransactionData = Prisma.TransactionCreateArgs['data'];
@@ -9,11 +9,11 @@ type UpdateTransactionData = Prisma.TransactionUpdateArgs['data'];
 export class TransactionPrismaRepository {
   constructor(private readonly prisma: PrismaService) {}
 
-  async findAll(where: Prisma.TransactionFindManyArgs['where']): Promise<Transaction[]> {
+  async findAll(where: Prisma.TransactionFindManyArgs['where']) {
     return this.prisma.transaction.findMany({ where });
   }
 
-  async findById(userId: string, id: string): Promise<Transaction | null> {
+  async findById(userId: string, id: string) {
     return this.prisma.transaction.findFirst({
       where: {
         id,
@@ -22,7 +22,7 @@ export class TransactionPrismaRepository {
     });
   }
 
-  async create(data: CreateTransactionData): Promise<Transaction> {
+  async create(data: CreateTransactionData) {
     return this.prisma.transaction.create({
       data,
     });
