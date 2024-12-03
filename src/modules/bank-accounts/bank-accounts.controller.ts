@@ -9,14 +9,14 @@ import { BankAccountsService } from './services/bank-accounts.service';
 export class BankAccountsController {
   constructor(private readonly bankAccountsService: BankAccountsService) {}
 
-  @Post()
-  create(@ActiveUserId() userId: string, @Body() data: CreateBankAccountDto) {
-    return this.bankAccountsService.create(userId, data);
-  }
-
   @Get()
   findAll(@ActiveUserId() userId: string) {
     return this.bankAccountsService.findAllByUserId(userId);
+  }
+
+  @Post()
+  create(@ActiveUserId() userId: string, @Body() data: CreateBankAccountDto) {
+    return this.bankAccountsService.create(userId, data);
   }
 
   @Put(':id')

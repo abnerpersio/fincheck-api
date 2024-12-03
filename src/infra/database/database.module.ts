@@ -2,19 +2,22 @@ import { Global, Module } from '@nestjs/common';
 import { UserPrismaRepository } from '~repositories/user.prisma.repository';
 import { PrismaService } from './prisma.service';
 import { BankAccountPrismaRepository } from './repositories/bank-account.prisma.repository';
-import { TransactionCategoriesPrismaRepository } from './repositories/transaction-categories.prisma.repository';
+import { TransactionCategoryPrismaRepository } from './repositories/transaction-category.prisma.repository';
+import { TransactionPrismaRepository } from './repositories/transaction.prisma.repository';
 
 @Module({
   providers: [
     PrismaService,
     UserPrismaRepository,
-    TransactionCategoriesPrismaRepository,
     BankAccountPrismaRepository,
+    TransactionCategoryPrismaRepository,
+    TransactionPrismaRepository,
   ],
   exports: [
     UserPrismaRepository,
-    TransactionCategoriesPrismaRepository,
     BankAccountPrismaRepository,
+    TransactionCategoryPrismaRepository,
+    TransactionPrismaRepository,
   ],
 })
 @Global()
