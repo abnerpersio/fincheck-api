@@ -16,6 +16,13 @@
     "noImplicitAny": false,
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
-    "noFallthroughCasesInSwitch": false
+    "noFallthroughCasesInSwitch": false,
+    "paths": {
+      "~database/*": ["./src/infra/database/*"],
+      "~repositories/*": ["./src/infra/database/repositories/*"],
+      "~infra/*": ["./src/infra/*"],
+      "~shared/*": ["./src/shared/*"],
+      "~/*": ["./src/*"]
+    }
   }
 }
