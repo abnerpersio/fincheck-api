@@ -1,4 +1,5 @@
 import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { ActiveUserId } from '~shared/decorators/active-user-id';
 import { CreateTransactionDto } from './dto/create-transaction.dto';
 import { UpdateTransactionDto } from './dto/update-transaction.dto';
 import { TransactionsService } from './transactions.service';
@@ -7,14 +8,14 @@ import { TransactionsService } from './transactions.service';
 export class TransactionsController {
   constructor(private readonly transactionsService: TransactionsService) {}
 
-  @Post()
-  create(@Body() createTransactionDto: CreateTransactionDto) {
-    return this.transactionsService.create(createTransactionDto);
+  @Get()
+  findAll(@ActiveUserId() userId: string) {
+    return this.transactionsService.findAllByUserId(userId);
   }
 
-  @Get()
-  findAll() {
-    return this.transactionsService.findAll();
+  @Post()
+  create(@ActiveUserId() userId: string, @Body() createTransactionDto: CreateTransactionDto) {
+    return this.transactionsService.create(userId, createTransactionDto);
   }
 
   @Put(':id')
