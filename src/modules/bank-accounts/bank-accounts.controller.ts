@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Post, Put } from '@nestjs/common';
 import { ActiveUserId } from '~shared/decorators/active-user-id';
 import { UUIDParam } from '~shared/decorators/uuid-param';
 import { BankAccountsService } from './bank-accounts.service';
@@ -29,5 +29,8 @@ export class BankAccountsController {
   }
 
   @Delete(':id')
-  delete() {}
+  @HttpCode(HttpStatus.NO_CONTENT)
+  delete(@ActiveUserId() userId: string, @UUIDParam('id') bankAccountId: string) {
+    return this.bankAccountsService.delete(userId, bankAccountId);
+  }
 }

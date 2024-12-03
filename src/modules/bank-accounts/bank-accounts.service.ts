@@ -39,4 +39,14 @@ export class BankAccountsService {
       initialBalance,
     });
   }
+
+  async delete(userId: string, bankAccountId: string) {
+    const exists = await this.repo.findById(userId, bankAccountId);
+
+    if (!exists) {
+      throw new NotFoundException('Bank account not found');
+    }
+
+    await this.repo.delete(bankAccountId);
+  }
 }
