@@ -1,13 +1,18 @@
-import { Body, Controller, Post, UsePipes, ValidationPipe } from '@nestjs/common';
-import { CreateUserDto } from './dto/create-user.dto';
+import { Controller, Get } from '@nestjs/common';
+import { ActiveUserId } from '~shared/decorators/active-user-id';
 import { UsersService } from './users.service';
 
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @Post()
-  create(@Body() data: CreateUserDto) {
-    return this.usersService.create(data);
+  @Get('/me')
+  async me(@ActiveUserId() userId: string) {
+    const user = await this.usersService.getUserById(userId);
+
+    return {
+      name: user.name,
+      email: user.email,
+    };
   }
 }
