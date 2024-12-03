@@ -2,9 +2,9 @@ import { Injectable } from '@nestjs/common';
 import { TransactionPrismaRepository } from '~database/repositories/transaction.prisma.repository';
 import { ValidateBankAccountOwnershipService } from '../../bank-accounts/services/validate-bank-account-ownership.service';
 import { ValidateTransactionCategoryOwnershipService } from '../../transaction-categories/services/validate-transaction-category-ownership.service';
-import { CreateTransactionDto } from '../dto/create-transaction.dto';
-import { ListTransactionsFiltersDto } from '../dto/list-transaction-filters.dto';
-import { UpdateTransactionDto } from '../dto/update-transaction.dto';
+import { CreateTransactionDTO } from '../dto/create-transaction.dto';
+import { ListTransactionsFiltersDTO } from '../dto/list-transaction-filters.dto';
+import { UpdateTransactionDTO } from '../dto/update-transaction.dto';
 import { ValidateTransactionOwnershipService } from './validate-transaction-ownership.service';
 
 type ValidateOwnershipData = {
@@ -23,7 +23,7 @@ export class TransactionsService {
     private readonly validateTransactionOwnershipService: ValidateTransactionOwnershipService,
   ) {}
 
-  findAllByUserId(userId: string, filters?: ListTransactionsFiltersDto) {
+  findAllByUserId(userId: string, filters?: ListTransactionsFiltersDTO) {
     const { month, year, bankAccountId, type } = filters;
 
     const currentMonth = new Date(Date.UTC(year, month));
@@ -40,7 +40,7 @@ export class TransactionsService {
     });
   }
 
-  async create(userId: string, data: CreateTransactionDto) {
+  async create(userId: string, data: CreateTransactionDTO) {
     const { bankAccountId, categoryId, date, description, type, value } = data;
 
     await this.validateOwernership({ userId, bankAccountId, categoryId });
@@ -56,7 +56,7 @@ export class TransactionsService {
     });
   }
 
-  async update(userId: string, transactionId: string, data: UpdateTransactionDto) {
+  async update(userId: string, transactionId: string, data: UpdateTransactionDTO) {
     const { bankAccountId, categoryId, date, description, type, value } = data;
 
     await this.validateOwernership({ userId, bankAccountId, categoryId, transactionId });

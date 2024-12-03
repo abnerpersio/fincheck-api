@@ -1,3 +1,3 @@
-import { CreateBankAccountDto } from './create-bank-account.dto';
+import { CreateBankAccountDTO } from './create-bank-account.dto';
 
-export class UpdateBankAccountDto extends CreateBankAccountDto {}
+export class UpdateBankAccountDTO extends CreateBankAccountDTO {}

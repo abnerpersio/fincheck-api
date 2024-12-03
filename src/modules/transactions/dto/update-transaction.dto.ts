@@ -1,3 +1,3 @@
-import { CreateTransactionDto } from './create-transaction.dto';
+import { CreateTransactionDTO } from './create-transaction.dto';
 
-export class UpdateTransactionDto extends CreateTransactionDto {}
+export class UpdateTransactionDTO extends CreateTransactionDTO {}

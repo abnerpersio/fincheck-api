@@ -11,9 +11,9 @@ import {
 } from '@nestjs/common';
 import { ActiveUserId } from '~shared/decorators/active-user-id';
 import { UUIDParam } from '~shared/decorators/uuid-param';
-import { CreateTransactionDto } from './dto/create-transaction.dto';
-import { ListTransactionsFiltersDto } from './dto/list-transaction-filters.dto';
-import { UpdateTransactionDto } from './dto/update-transaction.dto';
+import { CreateTransactionDTO } from './dto/create-transaction.dto';
+import { ListTransactionsFiltersDTO } from './dto/list-transaction-filters.dto';
+import { UpdateTransactionDTO } from './dto/update-transaction.dto';
 import { TransactionsService } from './services/transactions.service';
 
 @Controller('transactions')
@@ -21,12 +21,12 @@ export class TransactionsController {
   constructor(private readonly transactionsService: TransactionsService) {}
 
   @Get()
-  findAll(@ActiveUserId() userId: string, @Query() filters: ListTransactionsFiltersDto) {
+  findAll(@ActiveUserId() userId: string, @Query() filters: ListTransactionsFiltersDTO) {
     return this.transactionsService.findAllByUserId(userId, filters);
   }
 
   @Post()
-  create(@ActiveUserId() userId: string, @Body() data: CreateTransactionDto) {
+  create(@ActiveUserId() userId: string, @Body() data: CreateTransactionDTO) {
     return this.transactionsService.create(userId, data);
   }
 
@@ -34,7 +34,7 @@ export class TransactionsController {
   update(
     @ActiveUserId() userId: string,
     @UUIDParam('id') transactionId: string,
-    @Body() data: UpdateTransactionDto,
+    @Body() data: UpdateTransactionDTO,
   ) {
     return this.transactionsService.update(userId, transactionId, data);
   }

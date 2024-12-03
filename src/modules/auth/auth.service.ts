@@ -3,8 +3,8 @@ import { JwtService } from '@nestjs/jwt';
 import { compare, hash } from 'bcryptjs';
 import { UserPrismaRepository } from '~database/repositories/user.prisma.repository';
 import { env } from '~infra/config/env';
-import { SignupDto } from './dto/signup';
-import { SiginDto } from './dto/singin.dto';
+import { SignupDTO } from './dto/signup.dto';
+import { SiginDTO } from './dto/singin.dto';
 
 @Injectable()
 export class AuthService {
@@ -13,7 +13,7 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
 
-  async signup(data: SignupDto) {
+  async signup(data: SignupDTO) {
     const { name, email, password } = data;
 
     const isAlreadyRegistered = await this.repo.findByEmail(email);
@@ -48,7 +48,7 @@ export class AuthService {
     return { token: await this.generateAccessToken(user.id) };
   }
 
-  async signin(data: SiginDto) {
+  async signin(data: SiginDTO) {
     const { email, password } = data;
     const user = await this.repo.findByEmail(email);
 

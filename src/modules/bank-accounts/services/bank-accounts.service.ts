@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { BankAccountPrismaRepository } from '~database/repositories/bank-account.prisma.repository';
-import { CreateBankAccountDto } from '../dto/create-bank-account.dto';
-import { UpdateBankAccountDto } from '../dto/update-bank-account.dto';
+import { CreateBankAccountDTO } from '../dto/create-bank-account.dto';
+import { UpdateBankAccountDTO } from '../dto/update-bank-account.dto';
 import { ValidateBankAccountOwnershipService } from './validate-bank-account-ownership.service';
 
 @Injectable()
@@ -15,7 +15,7 @@ export class BankAccountsService {
     return this.repo.findAll({ userId });
   }
 
-  create(userId: string, data: CreateBankAccountDto) {
+  create(userId: string, data: CreateBankAccountDTO) {
     const { name, color, type, initialBalance } = data;
 
     return this.repo.create({
@@ -27,7 +27,7 @@ export class BankAccountsService {
     });
   }
 
-  async update(userId: string, bankAccountId: string, data: UpdateBankAccountDto) {
+  async update(userId: string, bankAccountId: string, data: UpdateBankAccountDTO) {
     const { name, color, type, initialBalance } = data;
 
     await this.validateBankAccountOwnershipService.validate(userId, bankAccountId);

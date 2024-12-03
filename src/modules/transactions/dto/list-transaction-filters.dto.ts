@@ -2,7 +2,7 @@ import { Transform } from 'class-transformer';
 import { IsEnum, IsInt, IsNotEmpty, IsOptional, IsUUID } from 'class-validator';
 import { TransactionType } from '../entities/transaction';
 
-export class ListTransactionsFiltersDto {
+export class ListTransactionsFiltersDTO {
   @Transform(({ value }) => parseInt(value))
   @IsInt()
   @IsNotEmpty()

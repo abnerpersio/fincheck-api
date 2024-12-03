@@ -1,8 +1,8 @@
 import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Post, Put } from '@nestjs/common';
 import { ActiveUserId } from '~shared/decorators/active-user-id';
 import { UUIDParam } from '~shared/decorators/uuid-param';
-import { CreateBankAccountDto } from './dto/create-bank-account.dto';
-import { UpdateBankAccountDto } from './dto/update-bank-account.dto';
+import { CreateBankAccountDTO } from './dto/create-bank-account.dto';
+import { UpdateBankAccountDTO } from './dto/update-bank-account.dto';
 import { BankAccountsService } from './services/bank-accounts.service';
 
 @Controller('bank-accounts')
@@ -15,7 +15,7 @@ export class BankAccountsController {
   }
 
   @Post()
-  create(@ActiveUserId() userId: string, @Body() data: CreateBankAccountDto) {
+  create(@ActiveUserId() userId: string, @Body() data: CreateBankAccountDTO) {
     return this.bankAccountsService.create(userId, data);
   }
 
@@ -23,7 +23,7 @@ export class BankAccountsController {
   update(
     @ActiveUserId() userId: string,
     @UUIDParam('id') bankAccountId: string,
-    @Body() data: UpdateBankAccountDto,
+    @Body() data: UpdateBankAccountDTO,
   ) {
     return this.bankAccountsService.update(userId, bankAccountId, data);
   }
