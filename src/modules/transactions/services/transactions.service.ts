@@ -29,15 +29,28 @@ export class TransactionsService {
     const currentMonth = new Date(Date.UTC(year, month));
     const nextMonth = new Date(Date.UTC(year, month + 1));
 
-    return this.repo.findAll({
-      userId,
-      bankAccountId,
-      type,
-      date: {
-        gte: currentMonth,
-        lt: nextMonth,
+    return this.repo.findAll(
+      {
+        userId,
+        bankAccountId,
+        type,
+        date: {
+          gte: currentMonth,
+          lt: nextMonth,
+        },
       },
-    });
+      {
+        include: {
+          category: {
+            select: {
+              id: true,
+              name: true,
+              icon: true,
+            },
+          },
+        },
+      },
+    );
   }
 
   async create(userId: string, data: CreateTransactionDTO) {
